@@ -156,7 +156,7 @@ def ping():
         print(f"/ping error: {e}")
         return jsonify({"error": "Ping failed"}), 500
 
-@app.route("/apps/<filename>", methods=["DELETE"])
+@app.route("/files/<filename>", methods=["DELETE"])
 def delete_app(filename):
     try:
         # Find file version (B2 requires fileId)
