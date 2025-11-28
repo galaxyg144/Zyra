@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: mirage-store
+    env: python
+    plan: free  # im broke as hell!
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app -b 0.0.0.0:10000
+    disk:
+      name: mirage-storage
+      mountPath: /mnt/data
+      sizeGB: 10

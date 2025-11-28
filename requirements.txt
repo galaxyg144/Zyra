@@ -1,0 +1,10 @@
+# --- Core Web Server ---
+Flask>=3.0.3,<3.1
+gunicorn>=23.0.0,<24.0.0
+
+# --- Backblaze B2 SDK ---
+b2sdk>=2.4.0,<3.0.0
+
+# --- Optional Utilities ---
+requests>=2.32.3,<3.0.0
+python-dotenv>=1.0.1,<2.0.0
