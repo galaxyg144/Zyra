@@ -66,7 +66,7 @@ def gshift(filename):
 
 # === Routes ===
 
-@app.route("/apps", methods=["GET"])
+@app.route("/files", methods=["GET"])
 def list_apps():
     try:
         files = [item.file_name for item, _ in bucket.ls()]
@@ -75,7 +75,7 @@ def list_apps():
         print(f"Error listing apps: {e}")
         return jsonify({"error": "Could not list files"}), 500
 
-@app.route("/apps/<filename>", methods=["GET"])
+@app.route("/files/<filename>", methods=["GET"])
 def get_app(filename):
     try:
         download_dest = DownloadDestBytes()
@@ -155,6 +155,33 @@ def ping():
     except Exception as e:
         print(f"/ping error: {e}")
         return jsonify({"error": "Ping failed"}), 500
+
+@app.route("/apps/<filename>", methods=["DELETE"])
+def delete_app(filename):
+    try:
+        # Find file version (B2 requires fileId)
+        file_id = None
+        for item, _ in bucket.ls():
+            if item.file_name == filename:
+                file_id = item.id_
+                break
+
+        if not file_id:
+            return jsonify({"error": "File not found"}), 404
+
+        # Delete file version
+        bucket.delete_file_version(file_id, filename)
+
+        return jsonify({
+            "success": True,
+            "deleted": filename
+        }), 200
+
+    except Exception as e:
+        print(f"Delete error: {e}")
+        return jsonify({"error": "Delete failed"}), 500
+
+
 
 # === Main ===
 if __name__ == "__main__":
