@@ -7,9 +7,12 @@ import platform
 import random
 import string
 from datetime import datetime
+from flask_cors import CORS
+
 
 app = Flask(__name__)
 
+CORS(app)
 # === B2 Configuration ===
 B2_KEY_ID = os.environ.get("B2_KEY_ID")       # Your KeyID
 B2_APP_KEY = os.environ.get("B2_APP_KEY")     # Your Application Key
@@ -62,10 +65,6 @@ def gshift(filename):
     return current_name
 
 # === Routes ===
-
-@app.route("/", methods=["GET"])
-def dashboard():
-    return render_template("dashboard.html")
 
 @app.route("/apps", methods=["GET"])
 def list_apps():
